@@ -1,4 +1,4 @@
-name: Provision the playground infrastructure
+name: Provision infra
 on: push
 
 jobs:

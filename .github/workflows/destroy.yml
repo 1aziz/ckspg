@@ -1,4 +1,4 @@
-name: Destroy the playground infra everyday at 15:00 UTC
+name: Destroy infra (scheduled)
 on:
   schedule:
     - cron: "0 15 * * *"
