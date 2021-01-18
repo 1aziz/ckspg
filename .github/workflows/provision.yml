@@ -2,7 +2,7 @@ name: Provision infra
 on: push
 
 jobs:
-  plan:
+  provision:
     runs-on: ubuntu-latest
     defaults:
       run:

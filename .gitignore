@@ -2,6 +2,8 @@
 gcp_cred.json
 config/inventory.txt
 config/tf_ansible_vars_file.yml
+Makefile
+kubeconfig
 # Local .terraform directories
 **/.terraform/*
 

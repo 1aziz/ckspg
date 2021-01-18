@@ -2,8 +2,6 @@
 # Install k8s components on all nodes
 - hosts: all
   become: true
-  vars_files:
-      - ../terraform/mgmt/tf_ansible_vars_file.yml
   tasks:
   - name: Install packages that allow apt to be used over HTTPS
     apt:
@@ -36,9 +34,9 @@
       - docker-ce 
       - docker-ce-cli 
       - containerd.io
-  - name: Add demouser user to docker group
+  - name: Add aziz user to docker group
     user:
-      name: demouser
+      name: aziz
       group: docker  
   - name: Set up the Docker daemon
     shell:
@@ -99,17 +97,19 @@
 # Initialize k8s cluster on master node
 - hosts: master
   become: true
+  vars_files:
+      - tf_ansible_vars_file.yml
   tasks:
   - name: Initialize Kubernetes
     shell:
       cmd: |-
-        kubeadm --apiserver-advertise-address="{{ master.internal_ip }}" --apiserver-cert-extra-sans="{{ master.external_ip }}" --pod-network-cidr=10.244.0.0/16 init
-  - name: Setup kubeconfig for demouser
+        kubeadm --apiserver-advertise-address="{{ master.internal_ip }}" --apiserver-cert-extra-sans="{{ master.external_ip }}" --pod-network-cidr=10.200.0.0/24 init
+  - name: Setup kubeconfig for aziz
     command: "{{ item }}"
     with_items:
-    - mkdir -p /home/demouser/.kube
-    - cp -i /etc/kubernetes/admin.conf /home/demouser/.kube/config
-    - chown demouser:demouser /home/demouser/.kube/config
+    - mkdir -p /home/aziz/.kube
+    - cp -i /etc/kubernetes/admin.conf /home/aziz/.kube/config
+    - chown aziz:aziz /home/aziz/.kube/config
   - name: Install calico pod network
     become: false
     command: kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
@@ -125,7 +125,7 @@
     delegate_to: localhost
   - name: Fetch k8s config file
     fetch:
-      src: /home/demouser/.kube/config
+      src: /home/aziz/.kube/config
       dest: config
       flat: yes
 

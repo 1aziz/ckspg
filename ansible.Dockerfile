@@ -25,6 +25,8 @@ RUN apk --no-cache add \
 
 RUN pip3 install ansible==${ANSIBLE_VERSION}
 
+RUN mkdir -p /root/.ssh
+
 WORKDIR /home
 
 CMD [ "ansible-playbook", "--version" ]

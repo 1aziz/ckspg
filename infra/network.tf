@@ -36,7 +36,7 @@ resource "google_compute_firewall" "k8s_ext_ckspg" {
 
   allow {
     protocol = "tcp"
-    ports    = ["6443", "22"]
+    ports    = ["6443", "22", "443", "80", "30000-32767"]
   }
 
   allow {
