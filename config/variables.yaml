@@ -1,0 +1,4 @@
+---
+master:
+  internal_ip: "10.240.0.10"
+  external_ip: ""

@@ -1,0 +1,29 @@
+name: Provision and manage infrastructure
+on:
+  push:
+    branches: [master]
+  # schedule:
+  #   - cron: "0 15 * * *"
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@v2
+      - uses: hashicorp/setup-terraform@v1
+      - name: Prepare Terraform env
+        id: prepare
+        run: echo ${{ secrets.GCP_CRED_KEY }} | base64 -d > gcp_cred.json
+        
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy -auto-approve -no-color
+        continue-on-error: true
+    env:
+      GOOGLE_CREDENTIALS: gcp_cred.json
