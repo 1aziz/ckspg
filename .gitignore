@@ -1,5 +1,7 @@
 .envrc
 gcp_cred.json
+config/inventory.txt
+config/tf_ansible_vars_file.yml
 # Local .terraform directories
 **/.terraform/*
 

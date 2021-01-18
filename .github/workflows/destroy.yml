@@ -1,9 +1,7 @@
-name: Provision and manage infrastructure
+name: Destroy the playground infra everyday at 15:00 UTC
 on:
-  push:
-    branches: [master]
-  # schedule:
-  #   - cron: "0 15 * * *"
+  schedule:
+    - cron: "0 15 * * *"
 jobs:
   destroy:
     runs-on: ubuntu-latest
@@ -13,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v1
+
       - name: Prepare Terraform env
         id: prepare
         run: echo ${{ secrets.GCP_CRED_KEY }} | base64 -d > gcp_cred.json
