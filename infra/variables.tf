@@ -22,10 +22,10 @@ variable "subnet_range" {
 
 variable "gce_ssh_user" {
   type    = string
-  default = "aziz"
+  default = "ansible"
 }
 
 variable "gce_ssh_pub_key_file" {
   type    = string
-  default = "ssh/aziz.pub"
+  default = "ssh/ansible.pub"
 }

@@ -17,7 +17,7 @@ config:
 	docker build -t ansible -f ansible.Dockerfile .
 	docker create -it --name ansible-playbook ansible ansible-playbook playbook.yaml
 	docker cp config/. ansible-playbook:/home
-	docker cp /Users/aziz/.ssh/id_rsa ansible-playbook:/root/.ssh/id_rsa
+	docker cp $(HOME)/.ssh/id_rsa ansible-playbook:/root/.ssh/id_rsa
 	docker start -a ansible-playbook
 
 .PHONY: kubeconfig

@@ -34,9 +34,9 @@
       - docker-ce 
       - docker-ce-cli 
       - containerd.io
-  - name: Add aziz user to docker group
+  - name: Add user to docker group
     user:
-      name: aziz
+      name: ansible
       group: docker  
   - name: Set up the Docker daemon
     shell:
@@ -104,12 +104,12 @@
     shell:
       cmd: |-
         kubeadm --apiserver-advertise-address="{{ master.internal_ip }}" --apiserver-cert-extra-sans="{{ master.external_ip }}" --pod-network-cidr=10.200.0.0/24 init
-  - name: Setup kubeconfig for aziz
+  - name: Setup kubeconfig for ansible
     command: "{{ item }}"
     with_items:
-    - mkdir -p /home/aziz/.kube
-    - cp -i /etc/kubernetes/admin.conf /home/aziz/.kube/config
-    - chown aziz:aziz /home/aziz/.kube/config
+    - mkdir -p /home/ansible/.kube
+    - cp -i /etc/kubernetes/admin.conf /home/ansible/.kube/config
+    - chown ansible:ansible /home/ansible/.kube/config
   - name: Install calico pod network
     become: false
     command: kubectl apply -f https://docs.projectcalico.org/v3.14/manifests/calico.yaml
@@ -125,7 +125,7 @@
     delegate_to: localhost
   - name: Fetch k8s config file
     fetch:
-      src: /home/aziz/.kube/config
+      src: /home/ansible/.kube/config
       dest: config
       flat: yes
 
